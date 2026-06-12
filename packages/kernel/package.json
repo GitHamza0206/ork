@@ -14,7 +14,7 @@
     "dist"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "restricted"
   },
   "scripts": {
     "build": "rm -rf dist && tsc -p tsconfig.build.json",
