@@ -1,4 +1,4 @@
-import { KernelError, type PointerStore, type WorkspacePointer } from "@ork/kernel";
+import { KernelError, type PointerStore, type WorkspacePointer } from "@ork.ai/kernel";
 import { assertSafeKey, S3HttpClient, throwOnUnexpected, type S3StoreConfig } from "./s3-client.js";
 
 /**

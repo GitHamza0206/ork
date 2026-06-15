@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { streamSSE } from "hono/streaming";
 import { HTTPException } from "hono/http-exception";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
-import { isKernelError } from "@ork/kernel";
+import { isKernelError } from "@ork.ai/kernel";
 import { SessionManager, SessionError } from "./session-manager.js";
 
 /**

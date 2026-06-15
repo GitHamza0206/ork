@@ -4,13 +4,13 @@ import {
   restoreSession,
   type Session,
   type SessionConfig,
-} from "@ork/harness";
+} from "@ork.ai/harness";
 import {
   MemorySnapshotStore,
   type SnapshotStore,
   type PermissionsConfig,
   type Limits,
-} from "@ork/kernel";
+} from "@ork.ai/kernel";
 import type { LanguageModel } from "ai";
 
 /**

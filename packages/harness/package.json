@@ -1,5 +1,5 @@
 {
-  "name": "@ork/harness",
+  "name": "@ork.ai/harness",
   "version": "0.0.1",
   "type": "module",
   "main": "./dist/index.js",
@@ -23,9 +23,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ork/kernel": "workspace:*",
-    "@ork/shell": "workspace:*",
-    "@ork/tools": "workspace:*",
+    "@ork.ai/kernel": "workspace:*",
+    "@ork.ai/shell": "workspace:*",
+    "@ork.ai/tools": "workspace:*",
     "ai": "^5.0.0",
     "zod": "^3.23.0"
   },

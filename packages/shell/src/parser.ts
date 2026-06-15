@@ -1,4 +1,4 @@
-// Recursive-descent parser for the @ork/shell bash subset.
+// Recursive-descent parser for the @ork.ai/shell bash subset.
 //
 // Grammar (informal):
 //   script     := (statement (separator statement)* )?

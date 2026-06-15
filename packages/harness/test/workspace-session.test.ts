@@ -3,7 +3,7 @@ import {
   MemoryPointerStore,
   MemorySnapshotStore,
   Workspace,
-} from "@ork/kernel";
+} from "@ork.ai/kernel";
 import { createSession } from "../src/session.js";
 import { scriptedModel } from "./mock-model.js";
 

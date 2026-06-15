@@ -1,4 +1,4 @@
-import type { PermissionsConfig } from "@ork/kernel";
+import type { PermissionsConfig } from "@ork.ai/kernel";
 
 export interface SystemPromptEnv {
   /** Working directory the agent starts in (absolute path in the virtual FS). */

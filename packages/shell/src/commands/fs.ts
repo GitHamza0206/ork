@@ -3,7 +3,7 @@
 // Conventions: errors go to stderr as "<cmd>: <detail>"; exit 0 ok, 1 error,
 // 2 usage. Paths are resolved against ctx.cwd via ctx.resolve().
 
-import { basename, isKernelError, readAll, readText, writeAll } from "@ork/kernel";
+import { basename, isKernelError, readAll, readText, writeAll } from "@ork.ai/kernel";
 import type { CommandContext, CommandImpl } from "../types.js";
 import { parseFlags, parseOpts, parseRangeList, statOrNull, takeLines } from "./util.js";
 
@@ -27,7 +27,7 @@ export const ls: CommandImpl = async (ctx) => {
   for (let pi = 0; pi < paths.length; pi++) {
     const p = paths[pi]!;
     const abs = ctx.resolve(p);
-    let st: import("@ork/kernel").Stat;
+    let st: import("@ork.ai/kernel").Stat;
     try {
       st = await ctx.sys.stat(abs);
     } catch (err) {
@@ -115,7 +115,7 @@ export const rm: CommandImpl = async (ctx) => {
   let code = 0;
   for (const p of rest) {
     const abs = ctx.resolve(p);
-    let st: import("@ork/kernel").Stat;
+    let st: import("@ork.ai/kernel").Stat;
     try {
       st = await ctx.sys.stat(abs);
     } catch (err) {
@@ -161,7 +161,7 @@ export const cp: CommandImpl = async (ctx) => {
   const absSrc = ctx.resolve(src);
   let absDst = ctx.resolve(dst);
 
-  let srcSt: import("@ork/kernel").Stat;
+  let srcSt: import("@ork.ai/kernel").Stat;
   try {
     srcSt = await ctx.sys.stat(absSrc);
   } catch (err) {

@@ -4,13 +4,13 @@
 
 **Goal:** Un filesystem persistant **par user**, partagé entre toutes ses conversations — chaque conversation gardant son propre historique. `Workspace` devient un objet de première classe (open/commit avec CAS), `createSession` compose un workspace + un thread, et un exemple runnable démontre tout le cycle (multi-conversations, multi-users, conflit, survie au redémarrage), zéro DB.
 
-**Architecture:** Le FS d'un user = une chaîne de snapshots content-addressed dans le `SnapshotStore` existant, référencée par un **pointeur versionné** (`PointerStore`, CAS). `Workspace.open(id)` restaure le FS courant (lazy) ; `Workspace.commit()` snapshot FS-only + avance le pointeur par compare-and-swap (conflit → `WorkspaceConflictError`). Les messages d'une conversation n'entrent **jamais** dans le store de blobs : ils restent côté hôte (JSON par convId). `createSession({ workspace, messages })` recompose les deux. Le `session.snapshot()` couplé existant (FS+messages) reste intact — c'est un autre cas d'usage (`@ork/server` en dépend).
+**Architecture:** Le FS d'un user = une chaîne de snapshots content-addressed dans le `SnapshotStore` existant, référencée par un **pointeur versionné** (`PointerStore`, CAS). `Workspace.open(id)` restaure le FS courant (lazy) ; `Workspace.commit()` snapshot FS-only + avance le pointeur par compare-and-swap (conflit → `WorkspaceConflictError`). Les messages d'une conversation n'entrent **jamais** dans le store de blobs : ils restent côté hôte (JSON par convId). `createSession({ workspace, messages })` recompose les deux. Le `session.snapshot()` couplé existant (FS+messages) reste intact — c'est un autre cas d'usage (`@ork.ai/server` en dépend).
 
 **Tech Stack:** TypeScript strict + noUncheckedIndexedAccess, ESM NodeNext, vitest, pnpm workspace. Aucune dépendance nouvelle. Tests harness avec le mock `MockLanguageModelV2` existant ; démo exécutée via tsx avec le mock inline (pattern de `scripts/e2e.ts`).
 
 **Décisions verrouillées (issues de la revue de design) :**
 - Pas de booléens sur `snapshot()` : `Workspace.commit()` est FS-only *par nature*. L'API précédemment envisagée (`includeMessages: false`, override sur `restoreSession`) est abandonnée.
-- `Workspace` vit dans `@ork/kernel` (pur FS, zéro concept LLM). Le harness ne fait que le composer.
+- `Workspace` vit dans `@ork.ai/kernel` (pur FS, zéro concept LLM). Le harness ne fait que le composer.
 - CAS par version monotone (`version: number`, 0 = inexistant). `DiskPointerStore` est atomique **intra-process** (mutex par id + write-temp-puis-rename) ; le multi-instance exige un store à écriture conditionnelle (R2/S3 If-Match, DB) — documenté, pas implémenté.
 - Les ids de workspace doivent matcher `^[A-Za-z0-9_-]{1,128}$` (même règle que le store disque). Un hôte avec des userIds exotiques (emails) les hashe lui-même.
 - Quand `workspace` est fourni à `createSession`, la config kernel (`mounts`/`network`/`limits`/`fetchImpl`) de `SessionConfig` est **ignorée** — elle a été fixée à `Workspace.open`. `workspace` + `files` simultanés → erreur EINVAL.
@@ -26,7 +26,7 @@
 
 ---
 
-### Task 1: `PointerStore` — pointeurs versionnés avec CAS (`@ork/kernel`)
+### Task 1: `PointerStore` — pointeurs versionnés avec CAS (`@ork.ai/kernel`)
 
 **Files:**
 - Create: `packages/kernel/src/workspace/pointer-store.ts`
@@ -146,7 +146,7 @@ test("disk: pointer survives a new store instance (restart)", async () => {
 });
 ```
 
-- [ ] **Step 3: Vérifier l'échec** — `pnpm -F @ork/kernel test` → FAIL (modules introuvables).
+- [ ] **Step 3: Vérifier l'échec** — `pnpm -F @ork.ai/kernel test` → FAIL (modules introuvables).
 
 - [ ] **Step 4: Implémenter**
 
@@ -249,7 +249,7 @@ export class DiskPointerStore implements PointerStore {
 }
 ```
 
-- [ ] **Step 5: Vérifier le pass** — `pnpm -F @ork/kernel test` → PASS ; typecheck clean.
+- [ ] **Step 5: Vérifier le pass** — `pnpm -F @ork.ai/kernel test` → PASS ; typecheck clean.
 
 - [ ] **Step 6: Commit**
 
@@ -260,7 +260,7 @@ git commit -m "feat(kernel): versioned workspace pointers with CAS (memory + dis
 
 ---
 
-### Task 2: `Workspace` — open / commit / conflit (`@ork/kernel`)
+### Task 2: `Workspace` — open / commit / conflit (`@ork.ai/kernel`)
 
 **Files:**
 - Create: `packages/kernel/src/workspace/workspace.ts`
@@ -351,7 +351,7 @@ test("kernel config (mounts/limits) is applied at open", async () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork/kernel test` → FAIL.
+- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork.ai/kernel test` → FAIL.
 
 - [ ] **Step 3: Implémenter**
 
@@ -427,7 +427,7 @@ export class Workspace {
 
 Note : `kernel.snapshot(store, {meta})` n'inclut **aucun message** — c'est l'API kernel, pas celle de la session. Le snapshot de commit est FS + lignée, rien d'autre.
 
-- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork/kernel test` → PASS ; typecheck clean.
+- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork.ai/kernel test` → PASS ; typecheck clean.
 
 - [ ] **Step 5: Commit**
 
@@ -459,7 +459,7 @@ export {
 } from "./workspace/workspace.js";
 ```
 
-- [ ] **Step 2: Vérifier** — `pnpm -F @ork/kernel test && pnpm -F @ork/kernel typecheck` → verts.
+- [ ] **Step 2: Vérifier** — `pnpm -F @ork.ai/kernel test && pnpm -F @ork.ai/kernel typecheck` → verts.
 
 - [ ] **Step 3: Commit**
 
@@ -470,7 +470,7 @@ git commit -m "feat(kernel): export Workspace + PointerStore API"
 
 ---
 
-### Task 4: `createSession({ workspace, messages })` (`@ork/harness`)
+### Task 4: `createSession({ workspace, messages })` (`@ork.ai/harness`)
 
 **Files:**
 - Modify: `packages/harness/src/session.ts`
@@ -488,7 +488,7 @@ import {
   MemoryPointerStore,
   MemorySnapshotStore,
   Workspace,
-} from "@ork/kernel";
+} from "@ork.ai/kernel";
 import { createSession } from "../src/session.js";
 import { scriptedModel } from "./mock-model.js"; // adapter le nom à l'export réel du helper
 
@@ -583,13 +583,13 @@ test("session FS effects land in the workspace kernel (commit persists them)", a
 
 **Note d'adaptation :** lire `packages/harness/test/mock-model.ts` et utiliser son API réelle (nom d'export, forme des steps tool-call/text). Si sa forme diffère de `scriptedModel([{toolCalls|text}])`, adapter les appels du test à l'API existante — ne PAS réécrire le mock.
 
-- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork/harness test` → FAIL (`workspace`/`messages` inconnus de SessionConfig).
+- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork.ai/harness test` → FAIL (`workspace`/`messages` inconnus de SessionConfig).
 
 - [ ] **Step 3: Implémenter** dans `packages/harness/src/session.ts` :
 
 Ajouter à l'import kernel existant : `Workspace` (type) et `KernelError` :
 ```ts
-import { createKernel, restoreKernel, KernelError, type Kernel, type SnapshotStore, type Workspace } from "@ork/kernel";
+import { createKernel, restoreKernel, KernelError, type Kernel, type SnapshotStore, type Workspace } from "@ork.ai/kernel";
 ```
 (fusionner avec la ligne d'import existante — ne pas dupliquer.)
 
@@ -629,9 +629,9 @@ export function createSession(cfg: SessionConfig): Session {
 ```
 (Le `createSession` actuel passe déjà par `buildSession` — conserver tout le reste tel quel. Si la signature actuelle diffère légèrement, adapter en gardant l'intention : workspace → son kernel ; sinon comportement inchangé.)
 
-Vérifier que `restoreSession` n'est PAS modifié (son couplage FS+messages est le contrat de `@ork/server`).
+Vérifier que `restoreSession` n'est PAS modifié (son couplage FS+messages est le contrat de `@ork.ai/server`).
 
-- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork/harness test` → PASS (27 existants + 4 nouveaux) ; `pnpm test` racine → tout vert (kernel avec ses nouveaux tests, shell 329, tools 61, server 26) ; typecheck clean.
+- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork.ai/harness test` → PASS (27 existants + 4 nouveaux) ; `pnpm test` racine → tout vert (kernel avec ses nouveaux tests, shell 329, tools 61, server 26) ; typecheck clean.
 
 - [ ] **Step 5: Commit**
 
@@ -675,7 +675,7 @@ Adapter les noms aux structures réelles trouvées dans `scripts/e2e.ts` — cop
  * Démontre : partage entre conversations d'un même user, isolation entre
  * users, conflit de commit concurrent, et survie à un « redémarrage ».
  *
- * Run:  pnpm -F @ork/example workspaces
+ * Run:  pnpm -F @ork.ai/example workspaces
  */
 import { mkdtemp, mkdir, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -685,8 +685,8 @@ import {
   DiskSnapshotStore,
   Workspace,
   WorkspaceConflictError,
-} from "@ork/kernel";
-import { createSession } from "@ork/harness";
+} from "@ork.ai/kernel";
+import { createSession } from "@ork.ai/harness";
 import type { ModelMessage } from "ai";
 import { scriptedModel } from "./mock-model.js";
 
@@ -847,20 +847,20 @@ process.exit(failed.length === 0 ? 0 : 1);
 - [ ] **Step 3: Câbler les scripts/docs**
 
 `example/package.json` → ajouter `"workspaces": "tsx 05-workspaces.ts"` aux scripts.
-`example/README.md` → ajouter la ligne : `| 05-workspaces.ts | Workspace (@ork/kernel) + @ork/harness | non | FS persistant par user partagé entre conversations : open/commit, CAS, threads séparés, survie au redémarrage. |` et la commande `pnpm -F @ork/example workspaces` dans le bloc Run.
+`example/README.md` → ajouter la ligne : `| 05-workspaces.ts | Workspace (@ork.ai/kernel) + @ork.ai/harness | non | FS persistant par user partagé entre conversations : open/commit, CAS, threads séparés, survie au redémarrage. |` et la commande `pnpm -F @ork.ai/example workspaces` dans le bloc Run.
 
 - [ ] **Step 4: Exécuter et itérer jusqu'au vert**
 
 ```bash
 pnpm install   # si nécessaire
-pnpm -F @ork/example workspaces
+pnpm -F @ork.ai/example workspaces
 ```
 Expected : `6/6 checks passed`, exit 0, pas de hang. Si un check échoue à cause d'un détail du mock ou d'un message d'erreur de tool différent, corriger la démo (ou remonter un vrai bug de lib — le signaler).
 
 - [ ] **Step 5: Typecheck + commit**
 
 ```bash
-pnpm -F @ork/example typecheck
+pnpm -F @ork.ai/example typecheck
 git add example
 git commit -m "docs(example): per-user persistent workspace demo (05)"
 ```
@@ -872,13 +872,13 @@ git commit -m "docs(example): per-user persistent workspace demo (05)"
 - [ ] **Step 1: Suite complète**
 
 ```bash
-pnpm test && pnpm typecheck && node_modules/.bin/tsx scripts/e2e.ts | tail -2 && pnpm -F @ork/example workspaces | tail -2
+pnpm test && pnpm typecheck && node_modules/.bin/tsx scripts/e2e.ts | tail -2 && pnpm -F @ork.ai/example workspaces | tail -2
 ```
 Expected : tous les packages verts (≥ 530 tests au total : 517 + ~13 nouveaux), e2e 32/32, démo 6/6.
 
 - [ ] **Step 2: Revue finale** (subagent reviewer sur `git diff main..feat/workspace`) — points d'attention :
 - CAS réellement sans lost-update (probe : deux commits concurrents via DiskPointerStore)
-- `restoreSession`/`@ork/server` non cassés (rétro-compat du snapshot couplé)
+- `restoreSession`/`@ork.ai/server` non cassés (rétro-compat du snapshot couplé)
 - `createSession({workspace})` ignore bien la config kernel de SessionConfig (documenté) et EINVAL sur workspace+files
 - pas de fuite des messages dans les snapshots de commit (inspecter un manifest)
 - mock copié de e2e fonctionne sous tsx
@@ -902,7 +902,7 @@ git checkout main && git merge feat/workspace --no-edit && pnpm test && git bran
 | Zéro DB obligatoire | 1+5 (pointeurs et threads = JSON sur disque/bucket) |
 | Pas de lost update entre conversations concurrentes | 1+2 (CAS) + 5 (lock par user + démo conflit) |
 | Isolation entre users | 2 (tests), 5 (démo user marc) |
-| Rétro-compat (`@ork/server`, `session.snapshot()` couplé) | 4 (restoreSession intact) + 6 (revue) |
+| Rétro-compat (`@ork.ai/server`, `session.snapshot()` couplé) | 4 (restoreSession intact) + 6 (revue) |
 | Multi-instance / GC des snapshots | **Hors scope, préparé** : interface PointerStore (conditional-put R2/S3), lignée `parent` dans le meta |
 
 ## Risques & décisions assumées

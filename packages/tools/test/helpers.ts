@@ -1,5 +1,5 @@
-import { createKernel, type Kernel } from "@ork/kernel";
-import { Shell } from "@ork/shell";
+import { createKernel, type Kernel } from "@ork.ai/kernel";
+import { Shell } from "@ork.ai/shell";
 import type { ToolContext } from "../src/context.js";
 
 export function makeCtx(

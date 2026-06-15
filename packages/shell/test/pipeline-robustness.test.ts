@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { createKernel, writeAll } from "@ork/kernel";
+import { createKernel, writeAll } from "@ork.ai/kernel";
 import { Shell } from "../src/interpreter.js";
 import { defaultRegistry } from "../src/registry.js";
 import type { CommandImpl } from "../src/types.js";

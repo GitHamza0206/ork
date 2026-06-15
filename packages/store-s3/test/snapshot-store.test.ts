@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { gcSnapshots, isListable, snapshotVfs, Vfs } from "@ork/kernel";
+import { gcSnapshots, isListable, snapshotVfs, Vfs } from "@ork.ai/kernel";
 import { S3SnapshotStore } from "../src/snapshot-store.js";
 import type { S3StoreConfig } from "../src/s3-client.js";
 import { FakeS3, type FakeS3Options } from "./fake-s3.js";

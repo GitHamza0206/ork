@@ -1,4 +1,4 @@
-import { isKernelError } from "@ork/kernel";
+import { isKernelError } from "@ork.ai/kernel";
 import type { ToolContext } from "./context.js";
 
 /**

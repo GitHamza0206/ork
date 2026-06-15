@@ -12,10 +12,10 @@
  *   export ANTHROPIC_API_KEY=sk-ant-...  # direct Anthropic (model id below)
  * (No key? Examples 01 and 02 run fully offline.)
  *
- * Run:  pnpm -F @ork/example agent       (or: tsx example/03-agent.ts)
+ * Run:  pnpm -F @ork.ai/example agent       (or: tsx example/03-agent.ts)
  */
-import { createSession } from "@ork/harness";
-import { MemorySnapshotStore } from "@ork/kernel";
+import { createSession } from "@ork.ai/harness";
+import { MemorySnapshotStore } from "@ork.ai/kernel";
 import { anthropic } from "@ai-sdk/anthropic";
 
 // Two routes to a model:

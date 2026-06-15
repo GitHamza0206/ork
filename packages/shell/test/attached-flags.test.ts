@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { createKernel } from "@ork/kernel";
+import { createKernel } from "@ork.ai/kernel";
 import { Shell } from "../src/interpreter.js";
 import { parseOpts } from "../src/commands/util.js";
 

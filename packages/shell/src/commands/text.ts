@@ -4,7 +4,7 @@
 // / not-found / differ, 2 usage / bad regex / bad json. Paths resolve via
 // ctx.resolve(); stdin read via readText.
 
-import { isKernelError, readText, writeAll } from "@ork/kernel";
+import { isKernelError, readText, writeAll } from "@ork.ai/kernel";
 import type { CommandContext, CommandImpl } from "../types.js";
 import { parseOpts, splitLines, statOrNull } from "./util.js";
 

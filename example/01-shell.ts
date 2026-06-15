@@ -6,10 +6,10 @@
  * redirections, globs, jq, control flow), and read the result back. Nothing
  * touches your real disk.
  *
- * Run:  pnpm -F @ork/example shell      (or: tsx example/01-shell.ts)
+ * Run:  pnpm -F @ork.ai/example shell      (or: tsx example/01-shell.ts)
  */
-import { createKernel } from "@ork/kernel";
-import { Shell } from "@ork/shell";
+import { createKernel } from "@ork.ai/kernel";
+import { Shell } from "@ork.ai/shell";
 
 async function main() {
   // A kernel = the micro-kernel: an in-memory VFS + syscalls + quotas.

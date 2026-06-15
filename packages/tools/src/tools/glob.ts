@@ -1,4 +1,4 @@
-import { normalizePath } from "@ork/kernel";
+import { normalizePath } from "@ork.ai/kernel";
 import { z } from "zod";
 import type { ToolContext } from "../context.js";
 import { globToRegExp } from "../glob-match.js";

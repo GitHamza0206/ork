@@ -1,7 +1,7 @@
 // Shared helpers for command implementations. Lifted from fs.ts so text.ts and
 // fs.ts can reuse them instead of duplicating.
 
-import { isKernelError } from "@ork/kernel";
+import { isKernelError } from "@ork.ai/kernel";
 import type { CommandContext } from "../types.js";
 
 /** Small flag parser: collects single-char flags from clustered/separate args
@@ -111,7 +111,7 @@ export function parseOpts(args: string[], spec: OptSpec): ParsedOpts {
 export async function statOrNull(
   ctx: CommandContext,
   abs: string,
-): Promise<import("@ork/kernel").Stat | null> {
+): Promise<import("@ork.ai/kernel").Stat | null> {
   try {
     return await ctx.sys.stat(abs);
   } catch (err) {

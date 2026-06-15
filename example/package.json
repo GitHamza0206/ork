@@ -1,5 +1,5 @@
 {
-  "name": "@ork/example",
+  "name": "@ork.ai/example",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -14,11 +14,11 @@
   "dependencies": {
     "@ai-sdk/anthropic": "^2",
     "@hono/node-server": "^1.13.0",
-    "@ork/harness": "workspace:*",
-    "@ork/kernel": "workspace:*",
-    "@ork/server": "workspace:*",
-    "@ork/shell": "workspace:*",
-    "@ork/tools": "workspace:*",
+    "@ork.ai/harness": "workspace:*",
+    "@ork.ai/kernel": "workspace:*",
+    "@ork.ai/server": "workspace:*",
+    "@ork.ai/shell": "workspace:*",
+    "@ork.ai/tools": "workspace:*",
     "ai": "^5.0.0"
   },
   "devDependencies": {

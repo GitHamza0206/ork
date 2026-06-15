@@ -1,5 +1,5 @@
 {
-  "name": "@ork/server",
+  "name": "@ork.ai/server",
   "version": "0.0.1",
   "type": "module",
   "main": "./dist/index.js",
@@ -23,8 +23,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ork/kernel": "workspace:*",
-    "@ork/harness": "workspace:*",
+    "@ork.ai/kernel": "workspace:*",
+    "@ork.ai/harness": "workspace:*",
     "hono": "^4.6.0",
     "@hono/node-server": "^1.13.0"
   },

@@ -6,16 +6,16 @@ ork is a sandboxed agent runtime: it runs LLM coding agents against a fully in-p
 
 | Package | Role |
 | --- | --- |
-| `@ork/kernel` | Virtual filesystem (VFS), syscalls, permissions/limits, content-addressed snapshot store. |
-| `@ork/shell` | POSIX-ish shell (lexer → parser → interpreter) with builtins, expansions, control flow, running on the kernel VFS. |
-| `@ork/tools` | The agent tools — Bash, Read, Write, Edit, Glob, Grep — wired to the kernel/shell. |
-| `@ork/harness` | Agent session loop: AI SDK tool loop, system prompt, compaction, and the public `SessionEvent` stream. |
-| `@ork/server` | Hono HTTP API + SSE, `SessionManager` (tenant isolation, turn lock, snapshot ownership). |
-| `@ork/store-s3` | Cloud storage adapters (`S3SnapshotStore`, `S3PointerStore`) over the S3-compatible HTTP API. |
+| `@ork.ai/kernel` | Virtual filesystem (VFS), syscalls, permissions/limits, content-addressed snapshot store. |
+| `@ork.ai/shell` | POSIX-ish shell (lexer → parser → interpreter) with builtins, expansions, control flow, running on the kernel VFS. |
+| `@ork.ai/tools` | The agent tools — Bash, Read, Write, Edit, Glob, Grep — wired to the kernel/shell. |
+| `@ork.ai/harness` | Agent session loop: AI SDK tool loop, system prompt, compaction, and the public `SessionEvent` stream. |
+| `@ork.ai/server` | Hono HTTP API + SSE, `SessionManager` (tenant isolation, turn lock, snapshot ownership). |
+| `@ork.ai/store-s3` | Cloud storage adapters (`S3SnapshotStore`, `S3PointerStore`) over the S3-compatible HTTP API. |
 
 ## Storage
 
-The kernel ships in-memory and on-disk stores for snapshots and workspace pointers; both are single-process. For a real SaaS deployment, `@ork/store-s3` provides `S3SnapshotStore` and `S3PointerStore` over the plain S3-compatible HTTP API (works with AWS S3, Cloudflare R2, and MinIO) using `aws4fetch` for SigV4 signing — no heavy SDK. Snapshots are content-addressed blobs/trees; the pointer store implements the optimistic-concurrency CAS contract via conditional writes (`If-None-Match: *` to create, `If-Match: <etag>` to advance), so multiple instances can commit the same workspace without clobbering each other. **Multi-instance pointer safety requires a backend that supports conditional PUT** (R2 and recent AWS S3 do); a backend that answers `501 NotImplemented` is rejected with a clear error rather than silently corrupting pointers.
+The kernel ships in-memory and on-disk stores for snapshots and workspace pointers; both are single-process. For a real SaaS deployment, `@ork.ai/store-s3` provides `S3SnapshotStore` and `S3PointerStore` over the plain S3-compatible HTTP API (works with AWS S3, Cloudflare R2, and MinIO) using `aws4fetch` for SigV4 signing — no heavy SDK. Snapshots are content-addressed blobs/trees; the pointer store implements the optimistic-concurrency CAS contract via conditional writes (`If-None-Match: *` to create, `If-Match: <etag>` to advance), so multiple instances can commit the same workspace without clobbering each other. **Multi-instance pointer safety requires a backend that supports conditional PUT** (R2 and recent AWS S3 do); a backend that answers `501 NotImplemented` is rejected with a clear error rather than silently corrupting pointers.
 
 ## Snapshot GC
 
@@ -30,7 +30,7 @@ pnpm typecheck   # tsc --noEmit across all packages
 
 ## Run the end-to-end verification
 
-A standalone script boots the **real** Node HTTP server on a real TCP port and drives it over real HTTP + SSE using a scripted mock model (no LLM key needed). It exercises the full wire path: `fetch → Hono → SessionManager → harness loop → AI SDK tool loop → @ork/tools → @ork/shell → @ork/kernel → VFS → snapshot/restore`.
+A standalone script boots the **real** Node HTTP server on a real TCP port and drives it over real HTTP + SSE using a scripted mock model (no LLM key needed). It exercises the full wire path: `fetch → Hono → SessionManager → harness loop → AI SDK tool loop → @ork.ai/tools → @ork.ai/shell → @ork.ai/kernel → VFS → snapshot/restore`.
 
 ```sh
 node_modules/.bin/tsx scripts/e2e.ts
@@ -48,7 +48,7 @@ export AI_GATEWAY_API_KEY=...   # AI SDK gateway credential
 ```
 
 ```ts
-import { createApp, SessionManager, startServer } from "@ork/server";
+import { createApp, SessionManager, startServer } from "@ork.ai/server";
 
 const manager = new SessionManager({
   // default modelResolver is identity: "anthropic/claude-..." is passed to the AI SDK

@@ -7,16 +7,16 @@
  * the entire wire path is exercised end to end:
  *
  *   fetch (HTTP) -> Hono -> SessionManager -> harness send() loop ->
- *   AI SDK tool loop -> @ork/tools -> @ork/shell -> @ork/kernel -> VFS ->
+ *   AI SDK tool loop -> @ork.ai/tools -> @ork.ai/shell -> @ork.ai/kernel -> VFS ->
  *   snapshot/restore -> back out over the socket as SSE frames.
  *
  * Run: pnpm dlx tsx scripts/e2e.ts   (or: node_modules/.bin/tsx scripts/e2e.ts)
  * Exits 0 only if every assertion passes; 1 otherwise.
  */
 import { serve } from "@hono/node-server";
-import { createApp } from "@ork/server";
-import { SessionManager } from "@ork/server";
-import { MemorySnapshotStore } from "@ork/kernel";
+import { createApp } from "@ork.ai/server";
+import { SessionManager } from "@ork.ai/server";
+import { MemorySnapshotStore } from "@ork.ai/kernel";
 import type { LanguageModel } from "ai";
 // Single source of truth for the scripted mock model lives in the example
 // package; tsx resolves the .ts behind this .js specifier. It re-implements the

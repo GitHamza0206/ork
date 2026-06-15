@@ -5,7 +5,7 @@ import {
   restoreVfs,
   Workspace,
   WorkspaceConflictError,
-} from "@ork/kernel";
+} from "@ork.ai/kernel";
 import { S3SnapshotStore } from "../src/snapshot-store.js";
 import { S3PointerStore } from "../src/pointer-store.js";
 import type { S3StoreConfig } from "../src/s3-client.js";

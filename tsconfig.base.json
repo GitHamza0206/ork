@@ -7,12 +7,12 @@
     "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "@ork/harness": ["packages/harness/src/index.ts"],
-      "@ork/kernel": ["packages/kernel/src/index.ts"],
-      "@ork/server": ["packages/server/src/index.ts"],
-      "@ork/shell": ["packages/shell/src/index.ts"],
-      "@ork/store-s3": ["packages/store-s3/src/index.ts"],
-      "@ork/tools": ["packages/tools/src/index.ts"]
+      "@ork.ai/harness": ["packages/harness/src/index.ts"],
+      "@ork.ai/kernel": ["packages/kernel/src/index.ts"],
+      "@ork.ai/server": ["packages/server/src/index.ts"],
+      "@ork.ai/shell": ["packages/shell/src/index.ts"],
+      "@ork.ai/store-s3": ["packages/store-s3/src/index.ts"],
+      "@ork.ai/tools": ["packages/tools/src/index.ts"]
     },
     "strict": true,
     "noUncheckedIndexedAccess": true,

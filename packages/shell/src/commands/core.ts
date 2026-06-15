@@ -2,7 +2,7 @@
 // These are the small, dependency-light commands. Filesystem-heavy commands live
 // in fs.ts; the POSIX test/[ evaluator lives in test.ts.
 
-import { isKernelError, readAll, writeAll } from "@ork/kernel";
+import { isKernelError, readAll, writeAll } from "@ork.ai/kernel";
 import type { CommandContext, CommandImpl } from "../types.js";
 
 // echo: join args with single spaces + trailing newline; -n suppresses newline.

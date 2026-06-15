@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import type { PointerStore } from "@ork/kernel";
+import type { PointerStore } from "@ork.ai/kernel";
 import { S3PointerStore } from "../src/pointer-store.js";
 import type { S3StoreConfig } from "../src/s3-client.js";
 import { FakeS3, type FakeS3Options } from "./fake-s3.js";

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import type { LanguageModel } from "ai";
-import { MemorySnapshotStore } from "@ork/kernel";
+import { MemorySnapshotStore } from "@ork.ai/kernel";
 import { createApp } from "../src/app.js";
 import { SessionManager, SessionError, type ModelResolver } from "../src/session-manager.js";
 import { scriptedModel, errorPartModel, type ScriptStep } from "./mock-model.js";

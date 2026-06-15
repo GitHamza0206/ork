@@ -4,7 +4,7 @@
 // syscalls themselves are cwd-agnostic), and reads the environment snapshot
 // captured when the pipeline was launched.
 
-import type { FsSyscalls } from "@ork/kernel";
+import type { FsSyscalls } from "@ork.ai/kernel";
 
 export interface CommandContext {
   /** argv[0] is the command name. */

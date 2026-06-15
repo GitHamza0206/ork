@@ -8,9 +8,9 @@ import {
   type PermissionsConfig,
   type Limits,
   type Workspace,
-} from "@ork/kernel";
-import { Shell } from "@ork/shell";
-import { createTools } from "@ork/tools";
+} from "@ork.ai/kernel";
+import { Shell } from "@ork.ai/shell";
+import { createTools } from "@ork.ai/tools";
 import {
   streamText,
   stepCountIs,
@@ -171,7 +171,7 @@ function buildSession(
             break;
           }
           case "tool-error": {
-            // @ork/tools wraps execute() so it rarely throws, but surface any
+            // @ork.ai/tools wraps execute() so it rarely throws, but surface any
             // tool error as a model-visible result rather than killing the loop.
             yield {
               type: "tool_result",

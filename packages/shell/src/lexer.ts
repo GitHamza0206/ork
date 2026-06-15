@@ -1,4 +1,4 @@
-// Tokenizer for the @ork/shell bash subset.
+// Tokenizer for the @ork.ai/shell bash subset.
 //
 // The lexer produces a flat token stream. WORD tokens carry an already-parsed
 // Word (array of WordPart) so the parser never has to re-scan quoting. Operator

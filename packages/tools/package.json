@@ -1,5 +1,5 @@
 {
-  "name": "@ork/tools",
+  "name": "@ork.ai/tools",
   "version": "0.0.1",
   "type": "module",
   "main": "./dist/index.js",
@@ -23,8 +23,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ork/kernel": "workspace:*",
-    "@ork/shell": "workspace:*",
+    "@ork.ai/kernel": "workspace:*",
+    "@ork.ai/shell": "workspace:*",
     "ai": "^5.0.0",
     "zod": "^3.23.0"
   },
