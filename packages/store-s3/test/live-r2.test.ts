@@ -14,7 +14,7 @@ import type { S3StoreConfig } from "../src/s3-client.js";
  *   R2_ACCESS_KEY_ID=... \
  *   R2_SECRET_ACCESS_KEY=... \
  *   R2_REGION=auto \
- *   pnpm --filter @ork/store-s3 vitest run test/live-r2.test.ts
+ *   pnpm --filter @ork.ai/store-s3 vitest run test/live-r2.test.ts
  *
  * Sans fetchImpl, l'adaptateur signe les requêtes via aws4fetch (SigV4) et tape
  * le vrai endpoint. Utiliser un bucket jetable : le test écrit blobs/ trees/

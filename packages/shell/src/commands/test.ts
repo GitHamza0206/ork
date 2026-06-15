@@ -6,7 +6,7 @@
 //   logic:    ! expr
 // No -a/-o (binary boolean) in v1 — keep it a focused evaluator.
 
-import { isKernelError, writeAll } from "@ork/kernel";
+import { isKernelError, writeAll } from "@ork.ai/kernel";
 import type { CommandContext, CommandImpl } from "../types.js";
 
 export const test: CommandImpl = async (ctx) => {
@@ -75,7 +75,7 @@ async function evalUnary(op: string, operand: string, ctx: CommandContext): Prom
     case "-f":
     case "-d":
     case "-s": {
-      let st: import("@ork/kernel").Stat | null = null;
+      let st: import("@ork.ai/kernel").Stat | null = null;
       try {
         st = await ctx.sys.stat(ctx.resolve(operand));
       } catch (err) {

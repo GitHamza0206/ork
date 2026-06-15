@@ -1,5 +1,5 @@
 {
-  "name": "@ork/store-s3",
+  "name": "@ork.ai/store-s3",
   "version": "0.0.1",
   "type": "module",
   "main": "./dist/index.js",
@@ -23,7 +23,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ork/kernel": "workspace:*",
+    "@ork.ai/kernel": "workspace:*",
     "aws4fetch": "^1.0.20"
   },
   "devDependencies": {

@@ -11,10 +11,10 @@ importers:
       '@hono/node-server':
         specifier: ^1.13.0
         version: 1.19.14(hono@4.12.25)
-      '@ork/kernel':
+      '@ork.ai/kernel':
         specifier: workspace:^
         version: link:packages/kernel
-      '@ork/server':
+      '@ork.ai/server':
         specifier: workspace:^
         version: link:packages/server
       ai:
@@ -32,19 +32,19 @@ importers:
       '@hono/node-server':
         specifier: ^1.13.0
         version: 1.19.14(hono@4.12.25)
-      '@ork/harness':
+      '@ork.ai/harness':
         specifier: workspace:*
         version: link:../packages/harness
-      '@ork/kernel':
+      '@ork.ai/kernel':
         specifier: workspace:*
         version: link:../packages/kernel
-      '@ork/server':
+      '@ork.ai/server':
         specifier: workspace:*
         version: link:../packages/server
-      '@ork/shell':
+      '@ork.ai/shell':
         specifier: workspace:*
         version: link:../packages/shell
-      '@ork/tools':
+      '@ork.ai/tools':
         specifier: workspace:*
         version: link:../packages/tools
       ai:
@@ -66,13 +66,13 @@ importers:
 
   packages/harness:
     dependencies:
-      '@ork/kernel':
+      '@ork.ai/kernel':
         specifier: workspace:*
         version: link:../kernel
-      '@ork/shell':
+      '@ork.ai/shell':
         specifier: workspace:*
         version: link:../shell
-      '@ork/tools':
+      '@ork.ai/tools':
         specifier: workspace:*
         version: link:../tools
       ai:
@@ -115,10 +115,10 @@ importers:
       '@hono/node-server':
         specifier: ^1.13.0
         version: 1.19.14(hono@4.12.25)
-      '@ork/harness':
+      '@ork.ai/harness':
         specifier: workspace:*
         version: link:../harness
-      '@ork/kernel':
+      '@ork.ai/kernel':
         specifier: workspace:*
         version: link:../kernel
       hono:
@@ -143,7 +143,7 @@ importers:
 
   packages/shell:
     dependencies:
-      '@ork/kernel':
+      '@ork.ai/kernel':
         specifier: workspace:*
         version: link:../kernel
     devDependencies:
@@ -159,7 +159,7 @@ importers:
 
   packages/store-s3:
     dependencies:
-      '@ork/kernel':
+      '@ork.ai/kernel':
         specifier: workspace:*
         version: link:../kernel
       aws4fetch:
@@ -178,10 +178,10 @@ importers:
 
   packages/tools:
     dependencies:
-      '@ork/kernel':
+      '@ork.ai/kernel':
         specifier: workspace:*
         version: link:../kernel
-      '@ork/shell':
+      '@ork.ai/shell':
         specifier: workspace:*
         version: link:../shell
       ai:

@@ -1,17 +1,17 @@
 /**
  * Example 2 — The 6 Claude-Code-style tools, no LLM, no API key.
  *
- * @ork/tools exposes Bash / Read / Write / Edit / Glob / Grep as AI SDK tools.
+ * @ork.ai/tools exposes Bash / Read / Write / Edit / Glob / Grep as AI SDK tools.
  * Here we call them directly (via createTools(...).<Tool>.execute) to show
  * exactly what an agent would do and what the model sees back. The tool outputs
  * are the strings that get fed to the LLM — note the `cat -n` line numbers,
  * the self-correctable error strings, etc.
  *
- * Run:  pnpm -F @ork/example tools      (or: tsx example/02-tools.ts)
+ * Run:  pnpm -F @ork.ai/example tools      (or: tsx example/02-tools.ts)
  */
-import { createKernel } from "@ork/kernel";
-import { Shell } from "@ork/shell";
-import { createTools } from "@ork/tools";
+import { createKernel } from "@ork.ai/kernel";
+import { Shell } from "@ork.ai/shell";
+import { createTools } from "@ork.ai/tools";
 
 async function main() {
   const kernel = createKernel({

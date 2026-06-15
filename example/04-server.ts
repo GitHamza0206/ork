@@ -9,11 +9,11 @@
  * messages drive a model. The default modelResolver passes the model id string
  * straight to the AI SDK (gateway routing).
  *
- * Run:  pnpm -F @ork/example server      (or: tsx example/04-server.ts)
+ * Run:  pnpm -F @ork.ai/example server      (or: tsx example/04-server.ts)
  * Then, in another terminal, the curl commands printed below.
  */
-import { createApp, SessionManager, SessionError, startServer } from "@ork/server";
-import { MemorySnapshotStore } from "@ork/kernel";
+import { createApp, SessionManager, SessionError, startServer } from "@ork.ai/server";
+import { MemorySnapshotStore } from "@ork.ai/kernel";
 import { anthropic } from "@ai-sdk/anthropic";
 import type { LanguageModel } from "ai";
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { MemorySnapshotStore } from "@ork/kernel";
+import { MemorySnapshotStore } from "@ork.ai/kernel";
 import { createSession, restoreSession, type SessionEvent } from "../src/index.js";
 import { scriptedModel, throwingModel, errorPartModel } from "./mock-model.js";
 
@@ -171,7 +171,7 @@ describe("error handling", () => {
   });
 
   it("a tool returning an error string is surfaced as a tool_result, loop continues", async () => {
-    // Read a missing file -> @ork/tools returns "Error: ..." string (not a throw).
+    // Read a missing file -> @ork.ai/tools returns "Error: ..." string (not a throw).
     const model = scriptedModel([
       { kind: "tools", calls: [{ toolName: "Read", input: { file_path: "/missing.txt" } }] },
       { kind: "text", text: "recovered", finishReason: "stop" },

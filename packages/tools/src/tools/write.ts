@@ -1,4 +1,4 @@
-import { isKernelError, normalizePath, parentOf } from "@ork/kernel";
+import { isKernelError, normalizePath, parentOf } from "@ork.ai/kernel";
 import { z } from "zod";
 import type { ToolContext } from "../context.js";
 

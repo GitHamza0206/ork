@@ -9,7 +9,7 @@
  * Démontre : partage entre conversations d'un même user, isolation entre
  * users, conflit de commit concurrent, et survie à un « redémarrage ».
  *
- * Run:  pnpm -F @ork/example workspaces
+ * Run:  pnpm -F @ork.ai/example workspaces
  */
 import { mkdtemp, mkdir, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -19,8 +19,8 @@ import {
   DiskSnapshotStore,
   Workspace,
   WorkspaceConflictError,
-} from "@ork/kernel";
-import { createSession } from "@ork/harness";
+} from "@ork.ai/kernel";
+import { createSession } from "@ork.ai/harness";
 import type { ModelMessage } from "ai";
 import { scriptedModel } from "./mock-model.js";
 

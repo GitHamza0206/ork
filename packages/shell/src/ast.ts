@@ -1,4 +1,4 @@
-// AST types for the @ork/shell bash-subset parser.
+// AST types for the @ork.ai/shell bash-subset parser.
 //
 // A Word is a sequence of WordPart fragments. Expansions ($VAR, ${VAR}, $(...))
 // are kept as structured parts and are NOT resolved at parse time — the

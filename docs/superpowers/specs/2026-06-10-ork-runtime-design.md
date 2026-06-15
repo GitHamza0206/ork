@@ -22,17 +22,17 @@ Un runtime agentique en TypeScript, in-memory-first : on POST un prompt + des fi
 
 ```
 ┌────────────────────────────────────────┐
-│            SERVER API (HTTP/SSE)       │  @ork/server
+│            SERVER API (HTTP/SSE)       │  @ork.ai/server
 ├────────────────────────────────────────┤
-│         HARNESS (boucle LLM)           │  @ork/harness
+│         HARNESS (boucle LLM)           │  @ork.ai/harness
 ├────────────────────────────────────────┤
 │             USERLAND                   │
-│   shell (AST) · commandes · tools      │  @ork/shell, @ork/tools
+│   shell (AST) · commandes · tools      │  @ork.ai/shell, @ork.ai/tools
 ├────────────────────────────────────────┤
 │      SYSCALL BOUNDARY (~12 appels)     │
 │  permissions · quotas · trace · events │
 ├────────────────────────────────────────┤
-│  KERNEL : VFS · proc table · event bus │  @ork/kernel
+│  KERNEL : VFS · proc table · event bus │  @ork.ai/kernel
 │        snapshot content-addressed      │
 └────────────────────────────────────────┘
               ▼ snapshot/restore ▼
@@ -45,13 +45,13 @@ Monorepo pnpm, 5 packages construits dans cet ordre (chacun aura son propre plan
 
 | Package | Rôle | Dépend de |
 |---|---|---|
-| `@ork/kernel` | VFS, procs, syscalls, events, snapshot | — |
-| `@ork/shell` | lexer → AST → interpréteur + ~30 commandes | kernel |
-| `@ork/tools` | Bash/Read/Write/Edit/Glob/Grep (format AI SDK) | kernel, shell |
-| `@ork/harness` | boucle agent, contexte, compaction, API session | tools |
-| `@ork/server` | HTTP/SSE, sessions, snapshot stores | harness |
+| `@ork.ai/kernel` | VFS, procs, syscalls, events, snapshot | — |
+| `@ork.ai/shell` | lexer → AST → interpréteur + ~30 commandes | kernel |
+| `@ork.ai/tools` | Bash/Read/Write/Edit/Glob/Grep (format AI SDK) | kernel, shell |
+| `@ork.ai/harness` | boucle agent, contexte, compaction, API session | tools |
+| `@ork.ai/server` | HTTP/SSE, sessions, snapshot stores | harness |
 
-## 3. `@ork/kernel`
+## 3. `@ork.ai/kernel`
 
 ### VFS
 
@@ -88,7 +88,7 @@ Events typés : `syscall`, `proc.spawn`, `proc.exit`, `fs.write`, `net.fetch`, �
 
 Erreurs typées à la frontière : `ENOENT`, `EISDIR`, `ENOTDIR`, `EACCES`, `EQUOTA`, `ETIMEOUT`, `ENETBLOCKED`. Le shell les mappe en exit codes + message stderr ; le harness en messages visibles par le modèle (l'agent peut se corriger).
 
-## 4. `@ork/shell`
+## 4. `@ork.ai/shell`
 
 ### Sous-ensemble bash (spec par corpus)
 
@@ -110,7 +110,7 @@ Fonctions TS pures sur syscalls, lazy-loaded :
 - `awk` minimal en v1.1 (gros morceau ; `jq`+`grep`+`sed` couvrent l'essentiel des usages agents en attendant).
 - Interface : `defineCommand({ name, exec(ctx) })` avec `ctx = { args, stdin, stdout, stderr, cwd, env, sys }` où `sys` est la table de syscalls. Commandes custom enregistrables par l'hôte.
 
-## 5. `@ork/tools`
+## 5. `@ork.ai/tools`
 
 Tools au format AI SDK, contrats identiques à Claude Code (les modèles les connaissent par cœur) :
 
@@ -123,7 +123,7 @@ Tools au format AI SDK, contrats identiques à Claude Code (les modèles les con
 
 Chaque tool tourne comme un proc kernel → même trace, mêmes quotas que le shell.
 
-## 6. `@ork/harness`
+## 6. `@ork.ai/harness`
 
 - **Boucle** : AI SDK v6, modèle en string `"provider/model"` via AI Gateway. Boucle sur `streamText` + tools avec stop conditions : max tours, budget tokens, timeout mur.
 - **System prompt** : façon Claude Code, concis — décrit l'environnement (FS virtuel, mounts, tools, limites), personnalisable par l'hôte.
@@ -143,7 +143,7 @@ const { snapshotId } = await session.snapshot(store);
 
 Tout est event-first : la même `AsyncIterable` alimente le SSE serveur, les logs, une UI.
 
-## 7. `@ork/server`
+## 7. `@ork.ai/server`
 
 API HTTP sur **Hono** (portable Node / Vercel Fluid / Workers) :
 
@@ -177,10 +177,10 @@ API HTTP sur **Hono** (portable Node / Vercel Fluid / Workers) :
 
 ## 10. Ordre de construction
 
-1. `@ork/kernel` — VFS + syscalls + procs + events + snapshot (store mémoire/disque).
-2. `@ork/shell` — lexer/parser/interpréteur + 10 premières commandes, corpus golden en place.
-3. `@ork/tools` — les 6 tools sur le kernel.
-4. `@ork/harness` — boucle + API session + compaction.
-5. `@ork/server` — Hono + SSE + adapters blob + auth.
+1. `@ork.ai/kernel` — VFS + syscalls + procs + events + snapshot (store mémoire/disque).
+2. `@ork.ai/shell` — lexer/parser/interpréteur + 10 premières commandes, corpus golden en place.
+3. `@ork.ai/tools` — les 6 tools sur le kernel.
+4. `@ork.ai/harness` — boucle + API session + compaction.
+5. `@ork.ai/server` — Hono + SSE + adapters blob + auth.
 
 Chaque étape livre quelque chose de testable seul ; chaque package aura son propre plan d'implémentation détaillé.

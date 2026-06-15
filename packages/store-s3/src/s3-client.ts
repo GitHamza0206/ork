@@ -1,5 +1,5 @@
 import { AwsClient } from "aws4fetch";
-import { KernelError } from "@ork/kernel";
+import { KernelError } from "@ork.ai/kernel";
 
 /**
  * Même regex que disk-store / disk-pointer-store : on refuse tout ce qui pourrait

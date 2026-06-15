@@ -9,7 +9,7 @@ import type {
  * text answer, or one/more tool calls (the AI SDK runs them, then calls the
  * model again for the next step — which consumes the next script entry).
  *
- * Mirrors the proven helper in @ork/harness/test/mock-model.ts.
+ * Mirrors the proven helper in @ork.ai/harness/test/mock-model.ts.
  */
 export type ScriptStep =
   | { kind: "text"; text: string; finishReason?: LanguageModelV2FinishReason }

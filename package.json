@@ -10,8 +10,8 @@
   },
   "devDependencies": {
     "@hono/node-server": "^1.13.0",
-    "@ork/kernel": "workspace:^",
-    "@ork/server": "workspace:^",
+    "@ork.ai/kernel": "workspace:^",
+    "@ork.ai/server": "workspace:^",
     "ai": "^5.0.0",
     "tsx": "^4.22.4"
   }

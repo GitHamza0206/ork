@@ -1,8 +1,8 @@
-# @ork/kernel Implementation Plan
+# @ork.ai/kernel Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Construire `@ork/kernel` — VFS in-memory, syscalls avec middlewares (trace/permissions/quotas), process virtuels async, event bus typé, snapshot content-addressed avec restore lazy.
+**Goal:** Construire `@ork.ai/kernel` — VFS in-memory, syscalls avec middlewares (trace/permissions/quotas), process virtuels async, event bus typé, snapshot content-addressed avec restore lazy.
 
 **Architecture:** Micro-kernel : un `Vfs` (Map path→inode), une frontière syscall où chaque appel traverse une chaîne de middlewares, une `ProcTable` de process virtuels en Web Streams, un `EventBus` typé, et un module snapshot (blobs SHA-256 + manifest) avec stores mémoire/disque. Spec source : `docs/superpowers/specs/2026-06-10-ork-runtime-design.md`.
 
@@ -24,7 +24,7 @@
 
 ---
 
-### Task 1: Scaffold monorepo + package @ork/kernel
+### Task 1: Scaffold monorepo + package @ork.ai/kernel
 
 **Files:**
 - Create: `pnpm-workspace.yaml`, `package.json`, `tsconfig.base.json`, `.gitignore`
@@ -86,7 +86,7 @@ dist/
 `packages/kernel/package.json`:
 ```json
 {
-  "name": "@ork/kernel",
+  "name": "@ork.ai/kernel",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -130,8 +130,8 @@ test("package loads", () => {
 
 ```bash
 pnpm install
-pnpm -F @ork/kernel test
-pnpm -F @ork/kernel typecheck
+pnpm -F @ork.ai/kernel test
+pnpm -F @ork.ai/kernel typecheck
 ```
 Expected: 1 test PASS, typecheck sans erreur.
 
@@ -139,7 +139,7 @@ Expected: 1 test PASS, typecheck sans erreur.
 
 ```bash
 git add -A
-git commit -m "chore: scaffold pnpm monorepo + @ork/kernel package"
+git commit -m "chore: scaffold pnpm monorepo + @ork.ai/kernel package"
 ```
 
 ---
@@ -171,7 +171,7 @@ test("isKernelError narrows correctly", () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork/kernel test` → FAIL (module introuvable).
+- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork.ai/kernel test` → FAIL (module introuvable).
 
 - [ ] **Step 3: Implémenter**
 
@@ -203,7 +203,7 @@ export function isKernelError(err: unknown): err is KernelError {
 }
 ```
 
-- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork/kernel test` → PASS.
+- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork.ai/kernel test` → PASS.
 
 - [ ] **Step 5: Commit**
 
@@ -260,7 +260,7 @@ test("parentOf and basename", () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork/kernel test` → FAIL.
+- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork.ai/kernel test` → FAIL.
 
 - [ ] **Step 3: Implémenter**
 
@@ -293,7 +293,7 @@ export function basename(path: string): string {
 }
 ```
 
-- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork/kernel test` → PASS.
+- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork.ai/kernel test` → PASS.
 
 - [ ] **Step 5: Commit**
 
@@ -338,7 +338,7 @@ test("unsubscribe stops delivery", () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork/kernel test` → FAIL.
+- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork.ai/kernel test` → FAIL.
 
 - [ ] **Step 3: Implémenter**
 
@@ -368,7 +368,7 @@ export class EventBus {
 }
 ```
 
-- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork/kernel test` → PASS.
+- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork.ai/kernel test` → PASS.
 
 - [ ] **Step 5: Commit**
 
@@ -447,7 +447,7 @@ test("exists", () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork/kernel test` → FAIL.
+- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork.ai/kernel test` → FAIL.
 
 - [ ] **Step 3: Implémenter**
 
@@ -542,7 +542,7 @@ export class Vfs {
 
 Note : `mkdir` est déjà inclus ici car les tests de lecture/EISDIR en ont besoin. La Task 6 complète `readdir`/`rm`/`rename`/`totalBytes` — ces méthodes s'ajoutent dans la même classe et accèdent directement à `this.#entries`.
 
-- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork/kernel test` → PASS.
+- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork.ai/kernel test` → PASS.
 
 - [ ] **Step 5: Commit**
 
@@ -623,7 +623,7 @@ test("totalBytes sums file sizes", () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork/kernel test` → FAIL.
+- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork.ai/kernel test` → FAIL.
 
 - [ ] **Step 3: Implémenter** — ajouter à la classe `Vfs` :
 
@@ -685,7 +685,7 @@ test("totalBytes sums file sizes", () => {
   }
 ```
 
-- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork/kernel test` → PASS.
+- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork.ai/kernel test` → PASS.
 
 - [ ] **Step 5: Commit**
 
@@ -767,7 +767,7 @@ test("fetch goes through middlewares and fetchImpl", async () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork/kernel test` → FAIL.
+- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork.ai/kernel test` → FAIL.
 
 - [ ] **Step 3: Implémenter**
 
@@ -860,7 +860,7 @@ export function createSyscalls(opts: {
 }
 ```
 
-- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork/kernel test` → PASS.
+- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork.ai/kernel test` → PASS.
 
 - [ ] **Step 5: Commit**
 
@@ -926,7 +926,7 @@ test("fetch allowed only on allow-listed prefixes", async () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork/kernel test` → FAIL.
+- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork.ai/kernel test` → FAIL.
 
 - [ ] **Step 3: Implémenter**
 
@@ -973,7 +973,7 @@ export function permissionsMiddleware(cfg: PermissionsConfig): Middleware {
 }
 ```
 
-- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork/kernel test` → PASS.
+- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork.ai/kernel test` → PASS.
 
 - [ ] **Step 5: Commit**
 
@@ -1027,7 +1027,7 @@ test("maxSyscallsPerTurn enforced, resetTurn() clears the counter", async () => 
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork/kernel test` → FAIL.
+- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork.ai/kernel test` → FAIL.
 
 - [ ] **Step 3: Implémenter**
 
@@ -1083,7 +1083,7 @@ export function quotasMiddleware(tracker: QuotaTracker): Middleware {
 }
 ```
 
-- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork/kernel test` → PASS.
+- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork.ai/kernel test` → PASS.
 
 - [ ] **Step 5: Commit**
 
@@ -1144,7 +1144,7 @@ test("permission denials are traced (trace is outermost)", async () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork/kernel test` → FAIL.
+- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork.ai/kernel test` → FAIL.
 
 - [ ] **Step 3: Implémenter**
 
@@ -1177,7 +1177,7 @@ export function traceMiddleware(bus: EventBus): Middleware {
 }
 ```
 
-- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork/kernel test` → PASS.
+- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork.ai/kernel test` → PASS.
 
 - [ ] **Step 5: Commit**
 
@@ -1262,7 +1262,7 @@ test("wait on unknown pid → ENOENT (throw synchrone)", () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork/kernel test` → FAIL.
+- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork.ai/kernel test` → FAIL.
 
 - [ ] **Step 3: Implémenter**
 
@@ -1427,7 +1427,7 @@ export class ProcTable {
 }
 ```
 
-- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork/kernel test` → PASS.
+- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork.ai/kernel test` → PASS.
 
 - [ ] **Step 5: Commit**
 
@@ -1493,7 +1493,7 @@ test("maxProcs exceeded → EQUOTA", async () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork/kernel test` → FAIL (`pipe` manquant ; le test maxProcs passe déjà — c'est attendu, il verrouille le comportement).
+- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork.ai/kernel test` → FAIL (`pipe` manquant ; le test maxProcs passe déjà — c'est attendu, il verrouille le comportement).
 
 - [ ] **Step 3: Implémenter** — ajouter à `ProcTable` :
 
@@ -1506,7 +1506,7 @@ test("maxProcs exceeded → EQUOTA", async () => {
   }
 ```
 
-- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork/kernel test` → PASS.
+- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork.ai/kernel test` → PASS.
 
 - [ ] **Step 5: Commit**
 
@@ -1577,7 +1577,7 @@ test("DiskSnapshotStore blob + tree round-trip", async () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork/kernel test` → FAIL.
+- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork.ai/kernel test` → FAIL.
 
 - [ ] **Step 3: Implémenter**
 
@@ -1688,7 +1688,7 @@ export class DiskSnapshotStore implements SnapshotStore {
 }
 ```
 
-- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork/kernel test` → PASS.
+- [ ] **Step 4: Vérifier le pass** — `pnpm -F @ork.ai/kernel test` → PASS.
 
 - [ ] **Step 5: Commit**
 
@@ -1795,7 +1795,7 @@ test("restore unknown id → ENOENT", async () => {
 });
 ```
 
-- [ ] **Step 3: Vérifier l'échec** — `pnpm -F @ork/kernel test` → FAIL.
+- [ ] **Step 3: Vérifier l'échec** — `pnpm -F @ork.ai/kernel test` → FAIL.
 
 - [ ] **Step 4: Implémenter**
 
@@ -1865,7 +1865,7 @@ export async function restoreVfs(
 
 Note déterminisme : `meta` fait partie du manifest, donc deux snapshots au même contenu FS mais meta différent ont des ids différents — c'est voulu (le meta contient l'historique de conversation, qui fait partie de l'état de session). Le test "same FS → same id" n'utilise pas de meta.
 
-- [ ] **Step 5: Vérifier le pass** — `pnpm -F @ork/kernel test` → PASS.
+- [ ] **Step 5: Vérifier le pass** — `pnpm -F @ork.ai/kernel test` → PASS.
 
 - [ ] **Step 6: Commit**
 
@@ -1954,7 +1954,7 @@ test("network blocked by default on a fresh kernel", async () => {
 });
 ```
 
-- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork/kernel test` → FAIL.
+- [ ] **Step 2: Vérifier l'échec** — `pnpm -F @ork.ai/kernel test` → FAIL.
 
 - [ ] **Step 3: Implémenter**
 
@@ -2072,8 +2072,8 @@ export { createKernel, restoreKernel, type Kernel, type KernelOptions } from "./
 - [ ] **Step 4: Vérifier le pass complet** —
 
 ```bash
-pnpm -F @ork/kernel test
-pnpm -F @ork/kernel typecheck
+pnpm -F @ork.ai/kernel test
+pnpm -F @ork.ai/kernel typecheck
 ```
 Expected: tous les tests PASS (smoke + 13 fichiers de tests), typecheck propre. Mettre à jour `smoke.test.ts` si l'import de `KERNEL_VERSION` a changé (il ne devrait pas).
 
@@ -2105,7 +2105,7 @@ Vérifier : pas de fichier oublié, pas de `console.log` de debug, exports d'`in
 
 - [ ] **Step 3: Commit final éventuel (nettoyage) puis fin**
 
-La branche `feat/kernel` reste locale (pas de push sans demande explicite). Le chantier suivant (`@ork/shell`) fera l'objet de son propre plan.
+La branche `feat/kernel` reste locale (pas de push sans demande explicite). Le chantier suivant (`@ork.ai/shell`) fera l'objet de son propre plan.
 
 ---
 
@@ -2124,6 +2124,6 @@ La branche `feat/kernel` reste locale (pas de push sans demande explicite). Le c
 | Middleware quotas (maxFsBytes, maxFileSize, maxSyscallsPerTurn, maxProcs) | 9, 12 |
 | Middleware trace + event bus typé | 4, 10 |
 | Erreurs typées ENOENT/EACCES/EQUOTA/ENETBLOCKED… | 2 (et partout) |
-| Stores : mémoire + disque (adapters blob cloud → chantier @ork/server) | 13 |
+| Stores : mémoire + disque (adapters blob cloud → chantier @ork.ai/server) | 13 |
 | `ETIMEOUT` (timeout par proc) | **Reporté au chantier shell/harness** : le timeout s'applique à l'exécution d'une commande, il sera posé par l'appelant via `AbortSignal` autour de `proc.exit`. Le code errno existe déjà (Task 2). |
 | Metadata de session dans le snapshot (`meta`) | 14, 15 |

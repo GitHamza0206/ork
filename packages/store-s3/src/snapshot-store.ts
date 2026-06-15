@@ -1,4 +1,4 @@
-import type { ListableSnapshotStore, SnapshotManifest } from "@ork/kernel";
+import type { ListableSnapshotStore, SnapshotManifest } from "@ork.ai/kernel";
 import {
   assertSafeKey,
   parseListObjectsV2,

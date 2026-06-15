@@ -8,7 +8,7 @@
  *  - `tool-call`    → `tool_call`    (`toolCallId`, `toolName`, `input`)
  *  - `tool-result`  → `tool_result`  (`toolCallId`, `toolName`, `output` stringified)
  *  - `tool-error`   → `tool_result`  (output = the error message; tools rarely throw
- *                                     since @ork/tools wraps execute in safeExecute)
+ *                                     since @ork.ai/tools wraps execute in safeExecute)
  *  - `finish-step`  → `step_finish`  (`finishReason`)
  *  - `finish`       → `turn_done`    (accumulated text + `finishReason` as stopReason)
  *  - `error`        → `error`        (stringified error message)

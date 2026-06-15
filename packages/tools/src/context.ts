@@ -1,5 +1,5 @@
-import type { FsSyscalls } from "@ork/kernel";
-import type { Shell } from "@ork/shell";
+import type { FsSyscalls } from "@ork.ai/kernel";
+import type { Shell } from "@ork.ai/shell";
 
 /**
  * Shared execution context threaded through every tool's core function.

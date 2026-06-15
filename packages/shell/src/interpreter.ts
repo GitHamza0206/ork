@@ -1,4 +1,4 @@
-// The interpreter executes a parsed Script over a @ork/kernel instance.
+// The interpreter executes a parsed Script over a @ork.ai/kernel instance.
 //
 // Scope: pipelines of simple commands PLUS compound commands (if/while/for).
 // A compound runs its inner Scripts via the statement-execution path, routing
@@ -20,7 +20,7 @@
 //    that run IN-PROCESS and mutate state directly (never as procs).
 //  - cmdsub recursively constructs a child Shell-like run via runCapture.
 
-import { isKernelError, normalizePath, readText, type Kernel } from "@ork/kernel";
+import { isKernelError, normalizePath, readText, type Kernel } from "@ork.ai/kernel";
 import { parse } from "./parser.js";
 import { ShellError, ShellParseError } from "./errors.js";
 import { CommandRegistry, defaultRegistry } from "./registry.js";

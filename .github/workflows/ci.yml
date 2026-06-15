@@ -27,8 +27,8 @@ jobs:
 
       - run: node_modules/.bin/tsx scripts/e2e.ts
 
-      - run: pnpm -F @ork/example shell
+      - run: pnpm -F @ork.ai/example shell
 
-      - run: pnpm -F @ork/example tools
+      - run: pnpm -F @ork.ai/example tools
 
-      - run: pnpm -F @ork/example workspaces
+      - run: pnpm -F @ork.ai/example workspaces
